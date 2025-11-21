@@ -2,7 +2,13 @@
 
 import argparse
 
-def generate_dice_combos (numdice : int):
+def PositiveInt (num):
+    intval = int(num)
+    if intval <= 0:
+        raise ValueError(f"{num} is not a positive integer")
+    return intval
+
+def dice_combo_generator (numdice : int):
     curr_combo = [1] * numdice
     all_sixes = [6] * numdice
     while curr_combo != all_sixes:
@@ -16,13 +22,15 @@ def generate_dice_combos (numdice : int):
 
 
 def farkle (numdice : int):
-    for dice_combo in generate_dice_combos(numdice):
+    for dice_combo in dice_combo_generator(numdice):
         print(dice_combo)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Calculates the probability of outcomes for the game Farkle")
-    parser.add_argument("numdice", type=int, help="The number of dice to roll")
+    parser = argparse.ArgumentParser(description="Calculates the probability "
+            "of outcomes for the game Farkle")
+    parser.add_argument("numdice", type=PositiveInt, help="The number of dice "
+            "to roll")
     args = parser.parse_args()
 
     farkle(**vars(args))
